@@ -1,7 +1,5 @@
-all-the-things
+Squash
 ==============
-
-Automate
 
 # Squash
 - edit credentials.js
