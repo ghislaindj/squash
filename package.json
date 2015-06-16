@@ -1,0 +1,24 @@
+{
+  "name": "squash",
+  "version": "1.0.0",
+  "description": "Squash ==============",
+  "main": "available.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "available": "casperjs available.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ghislaindj/squash.git"
+  },
+  "author": "Ghislain de Juvigny <gdjuvigny@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ghislaindj/squash/issues"
+  },
+  "homepage": "https://github.com/ghislaindj/squash",
+  "dependencies": {
+    "casper": "^0.1.1",
+    "lodash": "^3.9.3"
+  }
+}
