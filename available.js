@@ -8,33 +8,19 @@ casper.options.verbose = true;
 //casper.options.logLevel = 'debug';
 casper.options.waitTimeout = 10000;
 
-
-var creneauFromHour = {
-    "19h40" : "19",
-    "20h20" : "20",
-    "21h"   : "21",
-    "21h40" : "22",
-    "22h20" : "23",
-    "23h00" : "24",
-    "23h"   : "24"
-}
-
-var heure = casper.cli.options["heure"] || "21h40";
-var creneau = creneauFromHour[heure];
-
-//casper.echo("Casper lancé pour le creneau : " + heure, "INFO");
-
 var results = [];
 
-
+// Utile en cas de PB
 casper.on('remote.message', function(msg) {
-    //this.echo('Console: ' + msg, 'WARNING');
+    this.echo('Console: ' + msg, 'WARNING');
 });
 
 casper.on('timeout', function() {
     casper.capture('tmp/fail-' + new Date() + '.png')
 });
 
+
+// On commence et on se connecte
 casper.start('http://fr.wanaplay.com/auth/login', function() {
     this.fill('#login_form', {
         login: config.username,
@@ -43,10 +29,11 @@ casper.start('http://fr.wanaplay.com/auth/login', function() {
     this.echo("Logged in", "INFO");
 });
 
-
+// Puis on va sur la bonne page
 casper.thenOpen('http://fr.wanaplay.com/plannings/espacesportifpontoise/act/Squash', function() {
     for(var i = 0; i < 15; i++) {
         this.thenEvaluate(function(remoteCount) {
+            // on change la dtae
             var date = new Date();
             date.setDate(date.getDate() + remoteCount);
 
@@ -55,9 +42,10 @@ casper.thenOpen('http://fr.wanaplay.com/plannings/espacesportifpontoise/act/Squa
 
         this.wait(700);
 
+        // et là on va regarder les creneaux disponibles
         this.then(function(i) {
             var timeslots = [];
-
+            // on utilise la fonction getCreneaux pour regarder ça
             timeslots = this.evaluate(getCreneaux);
 
             var displayDate = this.evaluate(function() {
